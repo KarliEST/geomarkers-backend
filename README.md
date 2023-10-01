@@ -1,4 +1,4 @@
-# LOCATION PROJECT
+# GEOLOCATION PROJECT
 
 ### Project author: Karli Kullasepp.
 
