@@ -1,4 +1,4 @@
-# CURRENCY EXCHANGE PROJECT
+# LOCATION PROJECT
 
 ### Project author: Karli Kullasepp.
 
