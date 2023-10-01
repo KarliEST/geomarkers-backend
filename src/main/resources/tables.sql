@@ -1,4 +1,9 @@
-create table public.location
+create sequence locations_id_seq
+    as integer;
+
+alter sequence locations_id_seq owner to postgres;
+
+create table location
 (
     id          integer default nextval('locations_id_seq'::regclass) not null
         constraint locations_pkey
@@ -8,6 +13,7 @@ create table public.location
     description varchar
 );
 
-alter table public.location
+alter table location
     owner to postgres;
 
+alter sequence locations_id_seq owned by location.id;
