@@ -32,6 +32,10 @@ Before you start the app you have to set up your database.
 * If database is set up, you can run SQL scripts from [tables.sql](src/main/resources/tables.sql) in resources
   folder to generate table.
 
+* Before running app, change database's datasource user and password
+  in [application.properties](src/main/resources/application.properties). <br/>
+Default user/password is "postgres"/"password" to your postgres database user/password.
+
 * Run [BackendApplication](src/main/java/com/locator/backend/BackendApplication.java)
 
 ### NB! Front end is configured to use proxy port: 8080
