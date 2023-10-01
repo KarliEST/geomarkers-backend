@@ -2,7 +2,6 @@ package com.locator.backend.services;
 
 import com.locator.backend.models.Location;
 import com.locator.backend.repository.LocationRepository;
-import com.locator.backend.requests.LocationRequest;
 import com.locator.backend.responses.LocationResponse;
 import jakarta.annotation.Resource;
 import org.json.JSONArray;
@@ -16,7 +15,6 @@ import java.util.List;
 public class LocationService {
 	@Resource
 	private LocationRepository locationRepository;
-
 
 	public String addLocation(String request) {
 		Location location = convertJsonToLocation(request);
@@ -114,9 +112,4 @@ public class LocationService {
 		return location;
 	}
 
-	private void validateJson(JSONObject object) {
-		if (object.getJSONArray("features").length() != 1) {
-			return;
-		}
-	}
 }

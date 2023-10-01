@@ -1,14 +1,8 @@
 package com.locator.backend.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.locator.backend.models.Location;
-import com.locator.backend.requests.LocationRequest;
-import com.locator.backend.responses.LocationResponse;
 import com.locator.backend.services.LocationService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/")
