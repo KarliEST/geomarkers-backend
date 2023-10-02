@@ -151,8 +151,8 @@ public class LocationService {
 		if (!jsonParams.type.equalsIgnoreCase("POINT")) {
 			return false;
 		}
-		if (jsonParams.description == null ||
-				!jsonParams.description.matches(".*\\w.*")) {
+		if ((jsonParams.description == null) ||
+				(!jsonParams.description.matches(".*\\w.*"))) {
 			return false;
 		}
 		if (jsonParams.coordinates == null) {
