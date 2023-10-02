@@ -17,10 +17,10 @@ Adding a point is done through sending a POST request at "/add" endpoint in GeoJ
 GeoJson must contain a feature that has "type": "Point", properties object must contain "description" property and
 geometry object must contain coordinates array.
 Successful request is responded with response in GeoJson format. <br/>
-Point's data is changed by sending PUT request to "/{id}" with GeoJson request.
+Point's data is changed by sending PUT request to "/id?id={id}" with GeoJson request.
 Successful request is responded with response in GeoJson format. <br/>
-Data removal is done through DELETE request using "/{id}" endpoint. Removal requires valid id. <br/>
-GET "/{id}" returns single points data in GeoJson format. <br/>
+Data removal is done through DELETE request using "/id?id={id}" endpoint. Removal requires valid id. <br/>
+GET "/id?id={id}" returns single points data in GeoJson format. <br/>
 GET "/get" returns all point's data in GeoJson format.
 
 Services are located in [services](src/main/java/com/locator/backend/services) package.
