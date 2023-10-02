@@ -17,6 +17,9 @@ public class LocationService {
 	private LocationRepository locationRepository;
 
 	public String addLocation(String request) {
+		if (!checkGeoJson(request)) {
+			return "GEOJSON NOT VALID";
+		}
 		Location location = convertJsonToLocation(request);
 		locationRepository.save(location);
 		LocationResponse response = convertLocationToLocationResponse(location);
@@ -24,11 +27,20 @@ public class LocationService {
 	}
 
 	public String getLocationById(int id) {
+		if (checkId(id)) {
+			return "ID NOT VALID";
+		}
 		LocationResponse locationResponse = convertLocationToLocationResponse(locationRepository.getReferenceById(id));
 		return jsonResponse(locationResponse.toString());
 	}
 
 	public String updateLocationById(int id, String request) {
+		if (checkId(id)) {
+			return "ID NOT VALID";
+		}
+		if (checkGeoJson(request)) {
+			return "GEOJSON NOT VALID";
+		}
 		Location updatedLocation = convertJsonToLocation(request);
 		locationRepository.findById(id)
 				.map(location -> {
@@ -42,6 +54,9 @@ public class LocationService {
 	}
 
 	public String deleteLocationById(int id) {
+		if (checkId(id)) {
+			return "ID NOT VALID";
+		}
 		Location location = locationRepository.getReferenceById(id);
 		locationRepository.delete(location);
 		return "DELETED SUCCESSFULLY";
@@ -88,6 +103,16 @@ public class LocationService {
 	}
 
 	private Location convertJsonToLocation(String request) {
+		Result jsonParams = getJsonParams(request);
+
+		Location location = new Location();
+		location.setLatitude(jsonParams.latitude());
+		location.setLongitude(jsonParams.longitude());
+		location.setDescription(jsonParams.description());
+		return location;
+	}
+
+	private Result getJsonParams(String request) {
 		JSONObject obj = new JSONObject(request);
 
 		JSONObject features = obj
@@ -102,14 +127,44 @@ public class LocationService {
 				.getJSONObject("geometry")
 				.getJSONArray("coordinates");
 
+		String type = features
+				.getJSONObject("geometry")
+				.getString("type");
+
 		double latitude = coordinates.getDouble(0);
 		double longitude = coordinates.getDouble(1);
+		return new Result(type, coordinates, description, latitude, longitude);
+	}
 
-		Location location = new Location();
-		location.setLatitude(latitude);
-		location.setLongitude(longitude);
-		location.setDescription(description);
-		return location;
+	private record Result(String type, JSONArray coordinates, String description, double latitude, double longitude) {
+	}
+
+	private boolean checkId(int id) {
+		List<Location> locations = locationRepository.findAll();
+		return locations
+				.stream()
+				.noneMatch(location -> location.getId() == id);
+	}
+
+	private boolean checkGeoJson(String geoJson) {
+		Result jsonParams = getJsonParams(geoJson);
+		if (!jsonParams.type.equalsIgnoreCase("POINT")) {
+			return false;
+		}
+		if (jsonParams.description == null ||
+				!jsonParams.description.matches(".*\\w.*")) {
+			return false;
+		}
+		if (jsonParams.coordinates == null) {
+			return false;
+		}
+		if (jsonParams.latitude == 0) {
+			return false;
+		}
+		if (jsonParams.longitude == 0) {
+			return false;
+		}
+		return true;
 	}
 
 }
