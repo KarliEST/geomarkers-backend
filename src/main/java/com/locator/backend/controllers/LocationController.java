@@ -10,27 +10,27 @@ public class LocationController {
 	@Resource
 	private LocationService locationService;
 
-	@PostMapping("/add")
+	@PostMapping("/post")
 	public String addLocation(@RequestBody String request) {
 		return locationService.addLocation(request);
 	}
 
-	@GetMapping("/id")
+	@GetMapping("/get")
 	public String getLocationById(@RequestParam int id) {
 		return locationService.getLocationById(id);
 	}
 
-	@PutMapping("/id")
+	@PutMapping("/put")
 	public String updateLocationById(@RequestParam int id, @RequestBody String request) {
 		return locationService.updateLocationById(id, request);
 	}
 
-	@DeleteMapping("/id")
+	@DeleteMapping("/delete")
 	public String deleteLocationById(@RequestParam int id) {
 		return locationService.deleteLocationById(id);
 	}
 
-	@GetMapping("/get")
+	@GetMapping("/all")
 	public String getAllLocations() {
 		return locationService.getAllLocations();
 	}
