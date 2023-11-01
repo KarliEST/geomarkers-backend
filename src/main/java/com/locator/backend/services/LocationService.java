@@ -38,7 +38,7 @@ public class LocationService {
 		if (checkId(id)) {
 			return "ID NOT VALID";
 		}
-		if (checkGeoJson(request)) {
+		if (!checkGeoJson(request)) {
 			return "GEOJSON NOT VALID";
 		}
 		Location updatedLocation = convertJsonToLocation(request);
@@ -131,12 +131,12 @@ public class LocationService {
 				.getJSONObject("geometry")
 				.getString("type");
 
-		double latitude = coordinates.getDouble(0);
-		double longitude = coordinates.getDouble(1);
-		return new Result(type, coordinates, description, latitude, longitude);
+		double longitude = coordinates.getDouble(0);
+		double latitude = coordinates.getDouble(1);
+		return new Result(type, coordinates, description, longitude, latitude);
 	}
 
-	private record Result(String type, JSONArray coordinates, String description, double latitude, double longitude) {
+	private record Result(String type, JSONArray coordinates, String description, double longitude, double latitude) {
 	}
 
 	private boolean checkId(int id) {
