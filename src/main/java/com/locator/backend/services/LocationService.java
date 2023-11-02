@@ -17,7 +17,7 @@ public class LocationService {
 	private LocationRepository locationRepository;
 
 	public String addLocation(String request) {
-		if (!checkGeoJson(request)) {
+		if (validateJson(request)) {
 			return "GEOJSON NOT VALID";
 		}
 		Location location = convertJsonToLocation(request);
@@ -38,7 +38,7 @@ public class LocationService {
 		if (checkId(id)) {
 			return "ID NOT VALID";
 		}
-		if (!checkGeoJson(request)) {
+		if (validateJson(request)) {
 			return "GEOJSON NOT VALID";
 		}
 		Location updatedLocation = convertJsonToLocation(request);
@@ -146,25 +146,25 @@ public class LocationService {
 				.noneMatch(location -> location.getId() == id);
 	}
 
-	private boolean checkGeoJson(String geoJson) {
+	private boolean validateJson(String geoJson) {
 		Result jsonParams = getJsonParams(geoJson);
 		if (!jsonParams.type.equalsIgnoreCase("POINT")) {
-			return false;
+			return true;
 		}
 		if ((jsonParams.description == null) ||
 				(!jsonParams.description.matches(".*\\w.*"))) {
-			return false;
+			return true;
 		}
 		if (jsonParams.coordinates == null) {
-			return false;
+			return true;
 		}
 		if (jsonParams.latitude == 0) {
-			return false;
+			return true;
 		}
 		if (jsonParams.longitude == 0) {
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 }
