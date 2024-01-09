@@ -1,9 +1,9 @@
-create schema public;
+create schema if not exists public;
 
-create sequence public.locations_id_seq
+create sequence if not exists public.locations_id_seq
     as integer;
 
-create table public.location
+create table if not exists public.location
 (
     id          integer default nextval('public.locations_id_seq'::regclass) not null
         constraint locations_pkey
@@ -13,4 +13,4 @@ create table public.location
     description varchar
 );
 
-alter sequence public.locations_id_seq owned by location.id;
+alter sequence if exists public.locations_id_seq owned by location.id;
